@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div class="Reactive">
     <h1>{{ msg }}</h1>
   </div>
   <div>
@@ -16,32 +16,32 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
+import { reactive, computed, toRefs } from "vue";
 
 export default {
-  name: 'HelloWorld',
+  name: 'Reactive',
   props: {
     msg: String
   },
-
   setup() {
-    const capacity = ref(3);
-    const attending = ref(["Tim", "Bob", "Joe"]); // <--- New Array
-
-    const spacesLeft = computed(() => { // <-------
-      return capacity.value - attending.value.length;
+    const event = reactive({
+          capacity: 4,
+          attending: ["Tim", "Bob", "Joe"],
+          spacesLeft: computed(() => {
+            return event.capacity - event.attending.length;
+          })
     });
 
     // this 를 사용하지 않았다
-    function increaseCapacity() { // <--- Our new function
-      capacity.value++
+    function increaseCapacity() {
+      event.capacity++;
     }
 
     function decreaseCapacity() { // <--- Our new function
-      capacity.value--
+      event.capacity--;
     }
 
-    return { capacity, increaseCapacity, decreaseCapacity, attending, spacesLeft };
+    return { ...toRefs(event), increaseCapacity, decreaseCapacity};
   }
 }
 </script>

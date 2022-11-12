@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div class="modularize">
     <h1>{{ msg }}</h1>
   </div>
   <div>
@@ -19,30 +19,32 @@
 import { ref, computed } from "vue";
 
 export default {
-  name: 'HelloWorld',
+  name: 'Modularize',
   props: {
     msg: String
   },
 
   setup() {
-    const capacity = ref(3);
-    const attending = ref(["Tim", "Bob", "Joe"]); // <--- New Array
-
-    const spacesLeft = computed(() => { // <-------
-      return capacity.value - attending.value.length;
-    });
-
-    // this 를 사용하지 않았다
-    function increaseCapacity() { // <--- Our new function
-      capacity.value++
-    }
-
-    function decreaseCapacity() { // <--- Our new function
-      capacity.value--
-    }
-
-    return { capacity, increaseCapacity, decreaseCapacity, attending, spacesLeft };
+    return useEventSpace();
   }
+};
+
+function useEventSpace() {
+      const capacity = ref(4);
+      const attending = ref(["Tim", "Bob", "Joe"]);
+      const spacesLeft = computed(() => {
+        return capacity.value - attending.value.length;
+      });
+
+      function increaseCapacity() {
+        capacity.value++;
+      };
+
+      function decreaseCapacity() { // <--- Our new function
+      capacity.value--
+      };
+
+      return { capacity, increaseCapacity, decreaseCapacity, attending, spacesLeft };
 }
 </script>
 
